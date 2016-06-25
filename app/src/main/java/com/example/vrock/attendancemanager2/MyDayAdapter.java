@@ -1,6 +1,8 @@
 package com.example.vrock.attendancemanager2;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,12 +49,22 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int positionv = position;
         holder.subject.setText(mDataset.get(position));
-        switch(mDayNumber) {
-            case 0: holder.subjectCount.setText(Integer.toString(MainActivity.monday.get(mDataset.get(position))));break;
-            case 1: holder.subjectCount.setText(Integer.toString(MainActivity.tuesday.get(mDataset.get(position))));break;
-            case 2: holder.subjectCount.setText(Integer.toString(MainActivity.wednesday.get(mDataset.get(position))));break;
-            case 3: holder.subjectCount.setText(Integer.toString(MainActivity.thursday.get(mDataset.get(position))));break;
-            case 4: holder.subjectCount.setText(Integer.toString(MainActivity.friday.get(mDataset.get(position))));break;
+        switch (mDayNumber) {
+            case 0:
+                holder.subjectCount.setText(Integer.toString(MainActivity.monday.get(mDataset.get(position))));
+                break;
+            case 1:
+                holder.subjectCount.setText(Integer.toString(MainActivity.tuesday.get(mDataset.get(position))));
+                break;
+            case 2:
+                holder.subjectCount.setText(Integer.toString(MainActivity.wednesday.get(mDataset.get(position))));
+                break;
+            case 3:
+                holder.subjectCount.setText(Integer.toString(MainActivity.thursday.get(mDataset.get(position))));
+                break;
+            case 4:
+                holder.subjectCount.setText(Integer.toString(MainActivity.friday.get(mDataset.get(position))));
+                break;
         }
         holder.incrementSubject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,42 +76,57 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                         MainActivity.monday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("monday", MainActivity.monday);
-                    }break;
+                    }
+                    break;
                     case 1: {
                         int count = MainActivity.tuesday.get(mDataset.get(positionv));
                         count++;
                         MainActivity.tuesday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("tuesday", MainActivity.tuesday);
-                    }break;
+                    }
+                    break;
                     case 2: {
                         int count = MainActivity.wednesday.get(mDataset.get(positionv));
                         count++;
                         MainActivity.wednesday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("wednesday", MainActivity.wednesday);
-                    }break;
+                    }
+                    break;
                     case 3: {
                         int count = MainActivity.thursday.get(mDataset.get(positionv));
                         count++;
                         MainActivity.thursday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("thursday", MainActivity.thursday);
-                    }break;
+                    }
+                    break;
                     case 4: {
                         int count = MainActivity.friday.get(mDataset.get(positionv));
                         count++;
                         MainActivity.friday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("friday", MainActivity.friday);
-                    }break;
+                    }
+                    break;
                 }
                 switch (mDayNumber) {
-                    case 0: TimeTableActivity.mondayAdapter.notifyDataSetChanged();break;
-                    case 1: TimeTableActivity.tuesdayAdapter.notifyDataSetChanged();break;
-                    case 2: TimeTableActivity.wednesdayAdapter.notifyDataSetChanged();break;
-                    case 3: TimeTableActivity.thursdayAdapter.notifyDataSetChanged();break;
-                    case 4: TimeTableActivity.fridayAdapter.notifyDataSetChanged();break;
+                    case 0:
+                        TimeTableActivity.mondayAdapter.notifyDataSetChanged();
+                        break;
+                    case 1:
+                        TimeTableActivity.tuesdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        TimeTableActivity.wednesdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 3:
+                        TimeTableActivity.thursdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 4:
+                        TimeTableActivity.fridayAdapter.notifyDataSetChanged();
+                        break;
                 }
             }
         });
@@ -110,54 +137,70 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                     case 0: {
                         int count = MainActivity.monday.get(mDataset.get(positionv));
                         count--;
-                        if(count<0) count = 0;
+                        if (count < 0) count = 0;
                         MainActivity.monday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("monday", MainActivity.monday);
-                    }break;
+                    }
+                    break;
                     case 1: {
                         int count = MainActivity.tuesday.get(mDataset.get(positionv));
                         count--;
-                        if(count<0) count = 0;
+                        if (count < 0) count = 0;
                         MainActivity.tuesday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("tuesday", MainActivity.tuesday);
-                    }break;
+                    }
+                    break;
                     case 2: {
                         int count = MainActivity.wednesday.get(mDataset.get(positionv));
                         count--;
-                        if(count<0) count = 0;
+                        if (count < 0) count = 0;
                         MainActivity.wednesday.put(mDataset.get(positionv), count);
                         //To Update the File
-                       Paper.book().write("wednesday", MainActivity.wednesday);
-                    }break;
+                        Paper.book().write("wednesday", MainActivity.wednesday);
+                    }
+                    break;
                     case 3: {
                         int count = MainActivity.thursday.get(mDataset.get(positionv));
                         count--;
-                        if(count<0) count = 0;
+                        if (count < 0) count = 0;
                         MainActivity.thursday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("thursday", MainActivity.thursday);
-                    }break;
+                    }
+                    break;
                     case 4: {
                         int count = MainActivity.friday.get(mDataset.get(positionv));
                         count--;
-                        if(count<0) count = 0;
+                        if (count < 0) count = 0;
                         MainActivity.friday.put(mDataset.get(positionv), count);
                         //To Update the File
                         Paper.book().write("friday", MainActivity.friday);
-                    }break;
+                    }
+                    break;
                 }
                 switch (mDayNumber) {
-                    case 0: TimeTableActivity.mondayAdapter.notifyDataSetChanged();break;
-                    case 1: TimeTableActivity.tuesdayAdapter.notifyDataSetChanged();break;
-                    case 2: TimeTableActivity.wednesdayAdapter.notifyDataSetChanged();break;
-                    case 3: TimeTableActivity.thursdayAdapter.notifyDataSetChanged();break;
-                    case 4: TimeTableActivity.fridayAdapter.notifyDataSetChanged();break;
+                    case 0:
+                        TimeTableActivity.mondayAdapter.notifyDataSetChanged();
+                        break;
+                    case 1:
+                        TimeTableActivity.tuesdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        TimeTableActivity.wednesdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 3:
+                        TimeTableActivity.thursdayAdapter.notifyDataSetChanged();
+                        break;
+                    case 4:
+                        TimeTableActivity.fridayAdapter.notifyDataSetChanged();
+                        break;
                 }
             }
         });
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

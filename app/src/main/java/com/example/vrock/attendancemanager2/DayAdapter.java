@@ -1,5 +1,8 @@
 package com.example.vrock.attendancemanager2;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +17,14 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import java.util.HashMap;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 /**
  * Created by vvvro on 6/24/2016.
  */
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder>{
     private List<String> mDataset;
+    private Context mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView dayName;
@@ -33,8 +39,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder>{
         }
     }
 
-    public DayAdapter(List<String> myDataset) {
+    public DayAdapter(List<String> myDataset, Context  myContext) {
         mDataset = myDataset;
+        mContext = myContext;
     }
 
     @Override
@@ -58,92 +65,117 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder>{
         holder.incrementDayAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < MainActivity.subjectList.size(); i++) {
-                    String subjectName = MainActivity.subjectList.get(i).subjectName;
-                    int n = 0;
-                    switch (position) {
-                        case 0: {
-                            n = MainActivity.monday.get(subjectName);
-                        }
-                        break;
-                        case 1: {
-                            n = MainActivity.tuesday.get(subjectName);
-                        }
-                        break;
-                        case 2: {
-                            n = MainActivity.wednesday.get(subjectName);
-                        }
-                        break;
-                        case 3: {
-                            n = MainActivity.thursday.get(subjectName);
-                        }
-                        break;
-                        case 4: {
-                            n = MainActivity.friday.get(subjectName);
-                        }
-                        break;
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                alertDialogBuilder.setMessage("Did you attend class on "+mDataset.get(position)+"?");
+                alertDialogBuilder.setPositiveButton("ATTENDED", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < MainActivity.subjectList.size(); i++) {
+                            String subjectName = MainActivity.subjectList.get(i).subjectName;
+                            int n = 0;
+                            switch (position) {
+                                case 0: {
+                                    n = MainActivity.monday.get(subjectName);
+                                }
+                                break;
+                                case 1: {
+                                    n = MainActivity.tuesday.get(subjectName);
+                                }
+                                break;
+                                case 2: {
+                                    n = MainActivity.wednesday.get(subjectName);
+                                }
+                                break;
+                                case 3: {
+                                    n = MainActivity.thursday.get(subjectName);
+                                }
+                                break;
+                                case 4: {
+                                    n = MainActivity.friday.get(subjectName);
+                                }
+                                break;
 
+                            }
+                            if (n != 0) {
+                                int classesAttended = MainActivity.subjectList.get(i).ClassesAttended;
+                                classesAttended+=n;
+                                int total = MainActivity.subjectList.get(i).total;
+                                total+=n;
+                                float percent = ((float) classesAttended / total) * 100;
+                                MainActivity.changeAttendance(subjectName,
+                                        classesAttended,
+                                        total,
+                                        percent);
+                            }
+                        }
                     }
-                    if (n != 0) {
-                        int classesAttended = MainActivity.subjectList.get(i).ClassesAttended;
-                        classesAttended+=n;
-                        int total = MainActivity.subjectList.get(i).total;
-                        total+=n;
-                        float percent = ((float) classesAttended / total) * 100;
-                        MainActivity.changeAttendance(subjectName,
-                                classesAttended,
-                                total,
-                                percent);
-                    }
-                }
+                });
+                alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }
+                );
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
         holder.decrementDayAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            /*    mDataset.get(position).total++;
-                mDataset.get(position).percent = ((float) mDataset.get(position).ClassesAttended / mDataset.get(position).total) * 100;
-                MainActivity.changeAttendance(mDataset.get(position).subjectName,
-                        mDataset.get(position).ClassesAttended,
-                        mDataset.get(position).total,
-                        mDataset.get(position).percent); */
-                for (int i = 0; i < MainActivity.subjectList.size(); i++) {
-                    String subjectName = MainActivity.subjectList.get(i).subjectName;
-                    int n = 0;
-                    switch (position) {
-                        case 0: {
-                            n = MainActivity.monday.get(subjectName);
-                        }
-                        break;
-                        case 1: {
-                            n = MainActivity.tuesday.get(subjectName);
-                        }
-                        break;
-                        case 2: {
-                            n = MainActivity.wednesday.get(subjectName);
-                        }
-                        break;
-                        case 3: {
-                            n = MainActivity.thursday.get(subjectName);
-                        }
-                        break;
-                        case 4: {
-                            n = MainActivity.friday.get(subjectName);
-                        }
-                        break;
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                alertDialogBuilder.setMessage("Did you skip class on "+mDataset.get(position)+"?");
+                alertDialogBuilder.setPositiveButton("SKIPPED", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < MainActivity.subjectList.size(); i++) {
+                            String subjectName = MainActivity.subjectList.get(i).subjectName;
+                            int n = 0;
+                            switch (position) {
+                                case 0: {
+                                    n = MainActivity.monday.get(subjectName);
+                                }
+                                break;
+                                case 1: {
+                                    n = MainActivity.tuesday.get(subjectName);
+                                }
+                                break;
+                                case 2: {
+                                    n = MainActivity.wednesday.get(subjectName);
+                                }
+                                break;
+                                case 3: {
+                                    n = MainActivity.thursday.get(subjectName);
+                                }
+                                break;
+                                case 4: {
+                                    n = MainActivity.friday.get(subjectName);
+                                }
+                                break;
 
+                            }
+                            if (n != 0) {
+                                int classesAttended = MainActivity.subjectList.get(i).ClassesAttended;
+                                int total = MainActivity.subjectList.get(i).total;
+                                total+=n;
+                                float percent = ((float) classesAttended / total) * 100;
+                                MainActivity.changeAttendance(subjectName,
+                                        classesAttended,
+                                        total,
+                                        percent);
+                            }
+                        }
                     }
-                    if (n != 0) {
-                        int classesAttended = MainActivity.subjectList.get(i).ClassesAttended;
-                        int total = MainActivity.subjectList.get(i).total;
-                        total+=n;
-                        float percent = ((float) classesAttended / total) * 100;
-                        MainActivity.changeAttendance(subjectName,
-                                classesAttended,
-                                total,
-                                percent);
-                    }
-                }
+                });
+                alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }
+                );
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }

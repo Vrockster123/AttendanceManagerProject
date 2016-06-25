@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Stack;
 
 import io.paperdb.Paper;
 
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<String,Integer> thursday = new HashMap<String,Integer>();
     public static HashMap<String,Integer> friday = new HashMap<String,Integer>();
     public static ArrayList<String> subjectNameList = new ArrayList<String>();
+
+    public static ArrayList<Stack<Integer>> subjectStackArrayList = new ArrayList<Stack<Integer>>();
+
     FileOutputStream fos;
 
     @Override
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         String name;
         int classesAttended,total;
         float percent;
+        Stack<Integer> tempStack;
         while(cursor.moveToNext()){
             name = cursor.getString(cursor.getColumnIndex(AttendanceContract.SubjectEntry.COLUMN_NAME_SUBJECT_NAME));
             classesAttended = cursor.getInt(cursor.getColumnIndex(AttendanceContract.SubjectEntry.COLUMN_NAME_HOURS_ATTENDED));
@@ -104,7 +109,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-            if(flag==1) MainActivity.subjectList.add(new Subject(name, classesAttended, total, percent));
+            if(flag==1){
+                MainActivity.subjectList.add(new Subject(name, classesAttended, total, percent));
+                tempStack = new Stack<Integer>();
+                subjectStackArrayList.add(tempStack);
+            }
+
+            Log.v("Stack TAG", "Error Here");
         }
         cursor.close();
         if(subjectNameList.isEmpty()==true) {
@@ -199,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             if(subjectList.get(i).subjectName==name) {
                 subjectList.get(i).ClassesAttended = attendance;
                 subjectList.get(i).total = total;
+                subjectList.get(i).percent = ((float)attendance/total)*100;
             }
         }
         mAdapter.notifyDataSetChanged();

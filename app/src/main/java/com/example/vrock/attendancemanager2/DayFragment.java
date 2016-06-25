@@ -18,7 +18,7 @@ public class DayFragment extends Fragment {
     public RecyclerView.LayoutManager mLayoutManager;
     public AttendanceDbHelper dbHelper;
     public DayAdapter mAdapter;
-    ArrayList<String> days = new ArrayList<String>();
+    public static ArrayList<String> days = new ArrayList<String>();
     public void SubjectListFragment(){
     }
 
@@ -27,12 +27,14 @@ public class DayFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragmentdaylist, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_day_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        days.add("Monday");
-        days.add("Tuesday");
-        days.add("Wednesday");
-        days.add("Thursday");
-        days.add("Friday");
-        mAdapter = new DayAdapter(days);
+        if(days.isEmpty()) {
+            days.add("Monday");
+            days.add("Tuesday");
+            days.add("Wednesday");
+            days.add("Thursday");
+            days.add("Friday");
+        }
+        mAdapter = new DayAdapter(days,this.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;

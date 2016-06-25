@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
@@ -36,6 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public DonutProgress percent;
         public Button incrementAttendance;
         public Button decrementAttendance;
+        public Button undoAttendance;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,6 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             percent = (DonutProgress) itemView.findViewById((R.id.donut_progress));
             incrementAttendance = (Button) itemView.findViewById(R.id.attendance_increase);
             decrementAttendance = (Button) itemView.findViewById(R.id.attendance_decrease);
+            undoAttendance = (Button) itemView.findViewById(R.id.attendance_undo);
         }
     }
 
@@ -113,6 +116,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.incrementAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.subjectStackArrayList.get(position).push(1);
                 mDataset.get(position).ClassesAttended++;
                 mDataset.get(position).total++;
                 mDataset.get(position).percent = ((float) mDataset.get(position).ClassesAttended / mDataset.get(position).total) * 100;
@@ -125,12 +129,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.decrementAttendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.subjectStackArrayList.get(position).push(0);
                 mDataset.get(position).total++;
                 mDataset.get(position).percent = ((float) mDataset.get(position).ClassesAttended / mDataset.get(position).total) * 100;
                 MainActivity.changeAttendance(mDataset.get(position).subjectName,
                         mDataset.get(position).ClassesAttended,
                         mDataset.get(position).total,
                         mDataset.get(position).percent);
+            }
+        });
+        holder.undoAttendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MainActivity.subjectStackArrayList.get(position).isEmpty() == true) {
+                    Toast toast = new Toast(mContext);
+                    toast.makeText(mContext, "Nothing to Undo", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(MainActivity.subjectStackArrayList.get(position).pop()==1) {
+                        mDataset.get(position).ClassesAttended--;
+                        mDataset.get(position).total--;
+                    }
+                    else {
+                        mDataset.get(position).total--;
+                    }
+                    mDataset.get(position).percent = ((float) mDataset.get(position).ClassesAttended / mDataset.get(position).total) * 100;
+                    MainActivity.changeAttendance(mDataset.get(position).subjectName,
+                            mDataset.get(position).ClassesAttended,
+                            mDataset.get(position).total,
+                            mDataset.get(position).percent);
+                }
             }
         });
     }
