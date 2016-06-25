@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="1dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    >
+    <TextView
+        android:id="@+id/subjectDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:layout_gravity="center_vertical"
+        android:text="Monday"
+        android:layout_alignParentLeft="true"
+        android:textColor="#8A000000"
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        >
+
+    <Button
+        android:id="@+id/subject_decrement"
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8A000000"
+        android:textSize="24sp"
+        style="?android:attr/borderlessButtonStyle"
+        />
+        <TextView
+            android:id="@+id/subjectCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="#8A000000"
+            android:textSize="24sp"
+            android:layout_centerVertical="true"
+            />
+        <Button
+            android:id="@+id/subject_increment"
+            android:text="+"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#8A000000"
+            android:textSize="24sp"
+            style="?android:attr/borderlessButtonStyle"
+            />
+    </LinearLayout>
+</LinearLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/attendance_decrease"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#9e9e9e" />
+</LinearLayout>
