@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        /*Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(), intent, 0);
 
         Notification n = new Notification.Builder(this)
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(true).build();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0,n); 
+        notificationManager.notify(0,n); */
 
         dbHelper = new AttendanceDbHelper(this);
         Cursor cursor = dbHelper.getAllSubjects();
